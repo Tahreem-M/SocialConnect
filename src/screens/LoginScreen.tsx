@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import auth from '@react-native-firebase/auth';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -19,12 +21,13 @@ const LoginScreen = ({ navigation }: any) => {
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema: LoginSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
-        console.log('Login with:', values);
-        // Firebase login will go here
+        await auth().signInWithEmailAndPassword(values.email, values.password);
       } catch (error: any) {
         alert(error.message);
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -60,9 +63,14 @@ const LoginScreen = ({ navigation }: any) => {
       )}
 
       <TouchableOpacity
-        style={styles.button}
-        onPress={() => formik.handleSubmit()}>
-        <Text style={styles.buttonText}>Login</Text>
+        style={[styles.button, formik.isSubmitting && styles.buttonDisabled]}
+        onPress={() => formik.handleSubmit()}
+        disabled={formik.isSubmitting}>
+        {formik.isSubmitting ? (
+          <ActivityIndicator size="small" color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
@@ -83,6 +91,7 @@ const styles = StyleSheet.create({
   input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 10, padding: 14, marginBottom: 4, fontSize: 16, backgroundColor: '#f9f9f9' },
   error: { color: 'red', fontSize: 12, marginBottom: 8, marginLeft: 4 },
   button: { backgroundColor: '#6C63FF', padding: 16, borderRadius: 10, alignItems: 'center', marginTop: 16 },
+  buttonDisabled: { backgroundColor: '#aaa' },
   buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
   link: { color: '#6C63FF', textAlign: 'center', marginTop: 14, fontSize: 14 },
 });

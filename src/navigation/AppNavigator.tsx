@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
+import { useDispatch } from 'react-redux';
+import { setUser, clearUser } from '../store/slices/authSlice';
 
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
@@ -11,6 +13,9 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import CreatePostScreen from '../screens/CreatePostScreen';
+import CommentsScreen from '../screens/CommentsScreen';
+import UserProfileScreen from '../screens/UserProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,19 +35,24 @@ function MainTabs() {
 }
 
 export default function AppNavigator() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUserState] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // This watches if user is logged in or not
     const unsubscribe = auth().onAuthStateChanged((u) => {
-      setUser(u);
+      if (u) {
+        dispatch(setUser({ uid: u.uid, email: u.email }));
+        setUserState(u);
+      } else {
+        dispatch(clearUser());
+        setUserState(null);
+      }
       setLoading(false);
     });
     return unsubscribe;
   }, []);
 
-  // Show loading spinner while checking auth
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -55,10 +65,13 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
-          // User is logged in → show main app
-          <Stack.Screen name="Main" component={MainTabs} />
+          <>
+            <Stack.Screen name="Main" component={MainTabs} />
+            <Stack.Screen name="CreatePost" component={CreatePostScreen} />
+            <Stack.Screen name="Comments" component={CommentsScreen} />
+            <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+          </>
         ) : (
-          // User is NOT logged in → show auth screens
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
