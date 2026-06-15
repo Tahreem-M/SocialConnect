@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import { useDispatch } from 'react-redux';
 import { setUser, clearUser } from '../store/slices/authSlice';
+import { saveUserFCMToken } from '../utils/notifications';
 
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
@@ -26,10 +27,32 @@ function MainTabs() {
       screenOptions={{
         tabBarActiveTintColor: '#6C63FF',
         tabBarInactiveTintColor: '#999',
+        tabBarStyle: {
+          elevation: 8,
+          borderTopWidth: 0,
+          height: 60,
+          paddingBottom: 8,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+        },
       }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ tabBarLabel: '🏠 Home' }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ tabBarLabel: '👤 Profile' }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ tabBarLabel: '⚙️ Settings' }}
+      />
     </Tab.Navigator>
   );
 }
@@ -44,6 +67,8 @@ export default function AppNavigator() {
       if (u) {
         dispatch(setUser({ uid: u.uid, email: u.email }));
         setUserState(u);
+        // Save FCM token when user logs in
+        saveUserFCMToken(u.uid);
       } else {
         dispatch(clearUser());
         setUserState(null);
@@ -63,19 +88,53 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: '#6C63FF' },
+          headerTintColor: '#fff',
+          headerTitleStyle: { fontWeight: 'bold' },
+          animation: 'slide_from_right',
+        }}>
         {user ? (
           <>
-            <Stack.Screen name="Main" component={MainTabs} />
-            <Stack.Screen name="CreatePost" component={CreatePostScreen} />
-            <Stack.Screen name="Comments" component={CommentsScreen} />
-            <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+            <Stack.Screen
+              name="Main"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CreatePost"
+              component={CreatePostScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Comments"
+              component={CommentsScreen}
+              options={{ title: 'Comments' }}
+            />
+            <Stack.Screen
+              name="UserProfile"
+              component={UserProfileScreen}
+              options={{ title: 'Profile' }}
+            />
           </>
         ) : (
           <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUpScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ForgotPassword"
+              component={ForgotPasswordScreen}
+              options={{ headerShown: false }}
+            />
           </>
         )}
       </Stack.Navigator>
