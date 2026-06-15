@@ -1,97 +1,96 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+#  Social Connect App
 
-# Getting Started
+A minimal social media mobile application built using **React Native**. Social Connect allows users to create profiles, share posts, interact with others through likes and comments, and receive real-time updates.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### Authentication
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+* User Sign Up & Login
+* Forgot Password functionality
+* Form validation using Formik & Yup
+* Firebase Authentication integration
 
-```sh
-# Using npm
-npm start
+### User Profile
 
-# OR using Yarn
-yarn start
+* Create and edit profile
+* Add bio and profile picture
+* View other users' profiles
+
+### Home Feed
+
+* Create text posts with optional images
+* Scrollable post feed using FlatList
+* Display timestamps
+
+### Interactions
+
+* Like and unlike posts
+* Comment on posts (modal or separate screen)
+
+###  Real-Time Features
+
+* Live updates for likes and comments
+* Firebase Realtime Database / Socket.io integration
+
+###  Notifications
+
+* Get notified when someone likes or comments on your post
+* Firebase Cloud Messaging / Expo Notifications
+
+### UI & Animations
+* Smooth navigation using React Navigation
+* Animations using Reanimated / Lottie
+* Responsive design for multiple devices
+
+##  Tech Stack
+
+* **Frontend:** React Native
+* **Navigation:** React Navigation (Stack & Tab)
+* **State Management:** Redux Toolkit / Context API
+* **Backend:** Firebase (Authentication, Firestore, Realtime DB)
+* **Form Handling:** Formik + Yup
+* **Media Upload:** react-native-image-picker
+* **Notifications:** Firebase Cloud Messaging / Expo Notifications
+* 
+## Project Structure
+```
+SocialConnect/
+│── src/
+│   ├── screens/
+│   ├── components/
+│   ├── navigation/
+│   ├── redux/ or context/
+│   ├── services/
+│── assets/
+│── App.js
+│── package.json
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+##  Installation & Setup
+1. Clone the repository:
+```bash
+git clone https://github.com/your-username/social-connect.git
+cd social-connect
+```
+2. Install dependencies:
+```bash
+npm install
+```
+3. Run the app:
+```bash
+npx react-native run-android
 ```
 
-### iOS
+## Environment Setup
+* Configure Firebase project
+* Add your Firebase config in the project
+* Enable Authentication and Firestore/Realtime DB
+ 
+##  Author
+Developed as part of a **Mobile App Development Internship Task**.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## License
+This project is for educational purposes.
